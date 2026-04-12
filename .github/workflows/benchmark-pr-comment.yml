@@ -33,6 +33,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Fetch gh-pages for baseline comparison
+        run: git fetch origin gh-pages:gh-pages
 
       - name: Download benchmark artifact
         uses: actions/download-artifact@v4
@@ -68,6 +74,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Fetch gh-pages for baseline comparison
+        run: git fetch origin gh-pages:gh-pages
 
       - name: Download benchmark artifact
         uses: actions/download-artifact@v4
