@@ -35,7 +35,7 @@ jobs:
       - name: Download benchmark artifact
         uses: actions/download-artifact@v4
         with:
-          name: bench-linux-${{ matrix.sys.compiler }}-${{ matrix.sys.version }}-${{ matrix.sys.flags }}-${{ github.event.workflow_run.head_sha }}
+          name: bench-linux-${{ matrix.sys.compiler }}-${{ matrix.sys.version }}-${{ matrix.sys.flags }}
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -68,7 +68,7 @@ jobs:
       - name: Download benchmark artifact
         uses: actions/download-artifact@v4
         with:
-          name: bench-macos-${{ matrix.os }}-${{ github.event.workflow_run.head_sha }}
+          name: bench-macos-${{ matrix.os }}
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
