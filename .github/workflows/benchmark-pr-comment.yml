@@ -1,0 +1,87 @@
+name: Benchmark-PR (comment)
+
+on:
+  workflow_run:
+    workflows: ["Benchmark-PR (build)"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+
+jobs:
+  comment-linux:
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    name: 'linux ${{ matrix.sys.compiler }}-${{ matrix.sys.version }} ${{ matrix.sys.flags }}'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sys:
+          - { compiler: 'gcc',   version: '12', flags: 'force_no_instr_set' }
+          - { compiler: 'gcc',   version: '14', flags: 'avx'                }
+          - { compiler: 'gcc',   version: '13', flags: 'avx512'             }
+          - { compiler: 'gcc',   version: '13', flags: 'avx512pf'           }
+          - { compiler: 'gcc',   version: '13', flags: 'avx512vbmi'         }
+          - { compiler: 'gcc',   version: '14', flags: 'avx512vbmi2'        }
+          - { compiler: 'gcc',   version: '13', flags: 'avx512vnni'         }
+          - { compiler: 'clang', version: '17', flags: 'sse3'               }
+          - { compiler: 'clang', version: '17', flags: 'avx'                }
+
+    steps:
+      - name: Download benchmark artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: bench-linux-${{ matrix.sys.compiler }}-${{ matrix.sys.version }}-${{ matrix.sys.flags }}-${{ github.event.workflow_run.head_sha }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compare benchmark results
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: googlecpp
+          output-file-path: benchmark-result.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: false
+          gh-pages-branch: gh-pages
+          benchmark-data-dir-path: dev/bench/linux-${{ matrix.sys.compiler }}-${{ matrix.sys.version }}-${{ matrix.sys.flags }}
+          comment-on-alert: true
+          alert-threshold: '150%'
+          fail-on-alert: false
+          comment-always: true
+
+  comment-macos:
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    name: 'macos-${{ matrix.os }}'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [14, 15]
+
+    steps:
+      - name: Download benchmark artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: bench-macos-${{ matrix.os }}-${{ github.event.workflow_run.head_sha }}
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compare benchmark results
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: googlecpp
+          output-file-path: benchmark-result.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: false
+          gh-pages-branch: gh-pages
+          benchmark-data-dir-path: dev/bench/macos-${{ matrix.os }}
+          comment-on-alert: true
+          alert-threshold: '150%'
+          fail-on-alert: false
+          comment-always: true
