@@ -44,6 +44,7 @@ namespace xsimd
         if (size < simd_size)
         {
             detail::sequential_arange(first, last, value, step);
+            detail::sequential_arange(first, last, value, step);
             return;
         }
 
