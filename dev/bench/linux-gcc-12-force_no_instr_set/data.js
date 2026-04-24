@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776957468826,
+  "lastUpdate": 1777018609537,
   "repoUrl": "https://github.com/vvish/xsimd-algorithm",
   "entries": {
     "Benchmark": [
@@ -624,6 +624,318 @@ window.BENCHMARK_DATA = {
             "value": 2038829.1049562825,
             "unit": "ns/iter",
             "extra": "iterations: 343\ncpu: 2038757.6034985343 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "vv.os.swe@gmail.com",
+            "name": "vvish",
+            "username": "vvish"
+          },
+          "committer": {
+            "email": "vv.os.swe@gmail.com",
+            "name": "vvish",
+            "username": "vvish"
+          },
+          "distinct": true,
+          "id": "fa5529577f786deace139c7309addf87377d87d9",
+          "message": "Workflow fix",
+          "timestamp": "2026-04-24T10:14:35+02:00",
+          "tree_id": "c0e63c01ea338821dcb61844d25fbd33657a6102",
+          "url": "https://github.com/vvish/xsimd-algorithm/commit/fa5529577f786deace139c7309addf87377d87d9"
+        },
+        "date": 1777018609079,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_std_iota<float>/4096",
+            "value": 3804.1420934952866,
+            "unit": "ns/iter",
+            "extra": "iterations: 184266\ncpu: 3803.815766337795 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_iota<float>/262144",
+            "value": 245502.68011224162,
+            "unit": "ns/iter",
+            "extra": "iterations: 2851\ncpu: 245498.62820063138 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_iota<float>/4194304",
+            "value": 3928595.5112360027,
+            "unit": "ns/iter",
+            "extra": "iterations: 178\ncpu: 3928439.1404494387 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_arange<float>/4096",
+            "value": 929.7389430225263,
+            "unit": "ns/iter",
+            "extra": "iterations: 753280\ncpu: 929.703049330926 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_arange<float>/262144",
+            "value": 61561.94813186776,
+            "unit": "ns/iter",
+            "extra": "iterations: 11375\ncpu: 61555.69221978022 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_arange<float>/4194304",
+            "value": 989182.6837606933,
+            "unit": "ns/iter",
+            "extra": "iterations: 702\ncpu: 989051.0527065533 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_iota<double>/4096",
+            "value": 3798.597190407462,
+            "unit": "ns/iter",
+            "extra": "iterations: 184226\ncpu: 3798.3019932039974 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_iota<double>/262144",
+            "value": 246063.4427668561,
+            "unit": "ns/iter",
+            "extra": "iterations: 2848\ncpu: 246048.18223314616 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_iota<double>/4194304",
+            "value": 3943544.320224734,
+            "unit": "ns/iter",
+            "extra": "iterations: 178\ncpu: 3943257.9662921373 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_arange<double>/4096",
+            "value": 1921.3754164229242,
+            "unit": "ns/iter",
+            "extra": "iterations: 364113\ncpu: 1921.2482910525032 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_arange<double>/262144",
+            "value": 123085.34118060526,
+            "unit": "ns/iter",
+            "extra": "iterations: 5692\ncpu: 123077.56394940265 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_arange<double>/4194304",
+            "value": 2005835.449856739,
+            "unit": "ns/iter",
+            "extra": "iterations: 349\ncpu: 2005515.4097421179 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_unary<float>/4096",
+            "value": 325.3838605963814,
+            "unit": "ns/iter",
+            "extra": "iterations: 2097277\ncpu: 325.3546617828736 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_unary<float>/262144",
+            "value": 37640.94758744233,
+            "unit": "ns/iter",
+            "extra": "iterations: 18984\ncpu: 37638.64686051416 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_unary<float>/4194304",
+            "value": 995388.2457142932,
+            "unit": "ns/iter",
+            "extra": "iterations: 700\ncpu: 995271.1428571424 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_unary<float>/4096",
+            "value": 327.1111078884188,
+            "unit": "ns/iter",
+            "extra": "iterations: 2137616\ncpu: 327.05388339159146 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_unary<float>/262144",
+            "value": 37208.061511610445,
+            "unit": "ns/iter",
+            "extra": "iterations: 18907\ncpu: 37205.164171999684 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_unary<float>/4194304",
+            "value": 993653.1168091246,
+            "unit": "ns/iter",
+            "extra": "iterations: 702\ncpu: 993544.2051282048 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_unary<double>/4096",
+            "value": 861.1340018265415,
+            "unit": "ns/iter",
+            "extra": "iterations: 812474\ncpu: 861.0722004642589 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_unary<double>/262144",
+            "value": 74314.15662911553,
+            "unit": "ns/iter",
+            "extra": "iterations: 9232\ncpu: 74305.13420710558 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_unary<double>/4194304",
+            "value": 1963669.5935829224,
+            "unit": "ns/iter",
+            "extra": "iterations: 374\ncpu: 1963437.2566844916 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_unary<double>/4096",
+            "value": 1320.868159518091,
+            "unit": "ns/iter",
+            "extra": "iterations: 530573\ncpu: 1320.7685992313939 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_unary<double>/262144",
+            "value": 83484.38973565154,
+            "unit": "ns/iter",
+            "extra": "iterations: 8398\ncpu: 83455.80078590136 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_unary<double>/4194304",
+            "value": 2197825.317073197,
+            "unit": "ns/iter",
+            "extra": "iterations: 328\ncpu: 2197383.304878048 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_binary<float>/4096",
+            "value": 649.6346379589805,
+            "unit": "ns/iter",
+            "extra": "iterations: 1081894\ncpu: 649.5779780643928 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_binary<float>/262144",
+            "value": 54178.14458387847,
+            "unit": "ns/iter",
+            "extra": "iterations: 12989\ncpu: 54171.14881823082 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_binary<float>/4194304",
+            "value": 1235907.3884006764,
+            "unit": "ns/iter",
+            "extra": "iterations: 569\ncpu: 1235854.7047451644 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_binary<float>/4096",
+            "value": 483.9310602999723,
+            "unit": "ns/iter",
+            "extra": "iterations: 1447845\ncpu: 483.84022253763294 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_binary<float>/262144",
+            "value": 56613.42060330151,
+            "unit": "ns/iter",
+            "extra": "iterations: 12299\ncpu: 56611.90722822994 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_binary<float>/4194304",
+            "value": 1344056.8520833196,
+            "unit": "ns/iter",
+            "extra": "iterations: 480\ncpu: 1343891.4312499994 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_binary<double>/4096",
+            "value": 1319.5904538329255,
+            "unit": "ns/iter",
+            "extra": "iterations: 530768\ncpu: 1319.506646971931 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_binary<double>/262144",
+            "value": 105133.14460192973,
+            "unit": "ns/iter",
+            "extra": "iterations: 6632\ncpu: 105119.06363088035 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_transform_binary<double>/4194304",
+            "value": 2711981.591269864,
+            "unit": "ns/iter",
+            "extra": "iterations: 252\ncpu: 2711594.10714285 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_binary<double>/4096",
+            "value": 1314.9007985258286,
+            "unit": "ns/iter",
+            "extra": "iterations: 530728\ncpu: 1314.7148068313684 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_binary<double>/262144",
+            "value": 105603.16021341075,
+            "unit": "ns/iter",
+            "extra": "iterations: 6560\ncpu: 105577.72545731704 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_transform_binary<double>/4194304",
+            "value": 2812154.645914423,
+            "unit": "ns/iter",
+            "extra": "iterations: 257\ncpu: 2811763.9027237375 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_reduce<float>/4096",
+            "value": 950.7616498676397,
+            "unit": "ns/iter",
+            "extra": "iterations: 736253\ncpu: 950.6584625122093 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_reduce<float>/262144",
+            "value": 61775.21121297597,
+            "unit": "ns/iter",
+            "extra": "iterations: 11344\ncpu: 61772.23457334286 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_reduce<float>/4194304",
+            "value": 990237.5367231824,
+            "unit": "ns/iter",
+            "extra": "iterations: 708\ncpu: 990069.3757062093 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_reduce<float>/4096",
+            "value": 924.7781060005142,
+            "unit": "ns/iter",
+            "extra": "iterations: 756600\ncpu: 924.6833452286601 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_reduce<float>/262144",
+            "value": 61636.55621925602,
+            "unit": "ns/iter",
+            "extra": "iterations: 11384\ncpu: 61630.74218201 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_reduce<float>/4194304",
+            "value": 986750.4555712446,
+            "unit": "ns/iter",
+            "extra": "iterations: 709\ncpu: 986597.877291961 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_reduce<double>/4096",
+            "value": 952.14177897942,
+            "unit": "ns/iter",
+            "extra": "iterations: 736040\ncpu: 952.1232650399392 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_reduce<double>/262144",
+            "value": 62089.992557150836,
+            "unit": "ns/iter",
+            "extra": "iterations: 11286\ncpu: 62085.24277866408 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_std_reduce<double>/4194304",
+            "value": 1478503.7683982677,
+            "unit": "ns/iter",
+            "extra": "iterations: 462\ncpu: 1478382.902597398 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_reduce<double>/4096",
+            "value": 1881.8444284269156,
+            "unit": "ns/iter",
+            "extra": "iterations: 371816\ncpu: 1881.708858682789 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_reduce<double>/262144",
+            "value": 123281.3338025669,
+            "unit": "ns/iter",
+            "extra": "iterations: 5683\ncpu: 123268.42072848752 ns\nthreads: 1"
+          },
+          {
+            "name": "BM_xsimd_reduce<double>/4194304",
+            "value": 2033651.5520230706,
+            "unit": "ns/iter",
+            "extra": "iterations: 346\ncpu: 2033471.6011560694 ns\nthreads: 1"
           }
         ]
       }
