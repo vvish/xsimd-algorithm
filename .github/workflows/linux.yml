@@ -14,7 +14,7 @@ jobs:
       matrix:
         sys:
           - { compiler: 'gcc',   version: '12',  flags: 'force_no_instr_set' }
-          - { compiler: 'gcc',   version: '13',  flags: 'enable_xtl_complex' }
+          - { compiler: 'gcc',   version: '13',  flags: 'default' }
           - { compiler: 'gcc',   version: '14',  flags: 'avx' }
           - { compiler: 'gcc',   version: '13', flags: 'avx512' }
           - { compiler: 'gcc',   version: '12', flags: 'i386' }
@@ -23,7 +23,7 @@ jobs:
           - { compiler: 'gcc',   version: '14', flags: 'avx512vbmi2' }
           - { compiler: 'gcc',   version: '13', flags: 'avx512vnni' }
           - { compiler: 'clang', version: '16',  flags: 'force_no_instr_set' }
-          - { compiler: 'clang', version: '16', flags: 'enable_xtl_complex' }
+          - { compiler: 'clang', version: '16', flags: 'default' }
           - { compiler: 'clang', version: '17', flags: 'avx' }
           - { compiler: 'clang', version: '17', flags: 'sse3' }
           - { compiler: 'clang', version: '18', flags: 'avx512' }
@@ -55,9 +55,9 @@ jobs:
         CXX=clang++-$LLVM_VERSION
         echo "CXX=$CXX" >> $GITHUB_ENV
     - name: Checkout xsimd-algorithm
-      uses: actions/checkout@v3
+      uses: actions/checkout@v7
     - name: Set conda environment
-      uses: mamba-org/setup-micromamba@main
+      uses: mamba-org/setup-micromamba@v2
       with:
         environment-name: myenv
         environment-file: environment-dev.yml
@@ -71,29 +71,26 @@ jobs:
         CC: ${{ env.CC }}
         CXX: ${{ env.CXX }}
       run: |
-        if [[ '${{ matrix.sys.flags }}' == 'enable_xtl_complex' ]]; then
-          CMAKE_EXTRA_ARGS="$CMAKE_EXTRA_ARGS -DENABLE_XTL_COMPLEX=ON"
-        fi
         if [[ '${{ matrix.sys.flags }}' == 'avx' ]]; then
-          CMAKE_EXTRA_ARGS="$CMAKE_EXTRA_ARGS -DTARGET_ARCH=sandybridge"
+          CXX_FLAGS="$CXX_FLAGS -march=sandybridge"
         fi
         if [[ '${{ matrix.sys.flags }}' == 'sse3' ]]; then
-          CMAKE_EXTRA_ARGS="$CMAKE_EXTRA_ARGS -DTARGET_ARCH=nocona"
+          CXX_FLAGS="$CXX_FLAGS -march=nocona"
         fi
         if [[ '${{ matrix.sys.flags }}' == 'avx512' ]]; then
-          CMAKE_EXTRA_ARGS="$CMAKE_EXTRA_ARGS -DTARGET_ARCH=skylake-avx512"
+          CXX_FLAGS="$CXX_FLAGS -march=skylake-avx512"
         fi
         if [[ '${{ matrix.sys.flags }}' == 'avx512pf' ]]; then
-          CMAKE_EXTRA_ARGS="$CMAKE_EXTRA_ARGS -DTARGET_ARCH=knl"
+          CXX_FLAGS="$CXX_FLAGS -march=knl"
         fi
         if [[ '${{ matrix.sys.flags }}' == 'avx512vbmi' ]]; then
-          CMAKE_EXTRA_ARGS="$CMAKE_EXTRA_ARGS -DTARGET_ARCH=cannonlake"
+          CXX_FLAGS="$CXX_FLAGS -march=cannonlake"
         fi
         if [[ '${{ matrix.sys.flags }}' == 'avx512vbmi2' ]]; then
-          CMAKE_EXTRA_ARGS="$CMAKE_EXTRA_ARGS -DTARGET_ARCH=icelake-server"
+          CXX_FLAGS="$CXX_FLAGS -march=icelake-server"
         fi
         if [[ '${{ matrix.sys.flags }}' == 'avx512vnni' ]]; then
-          CMAKE_EXTRA_ARGS="$CMAKE_EXTRA_ARGS -DTARGET_ARCH=knm"
+          CXX_FLAGS="$CXX_FLAGS -march=knm"
         fi
         if [[ '${{ matrix.sys.flags }}' == 'i386' ]]; then
           CXX_FLAGS="$CXX_FLAGS -m32"
@@ -114,7 +111,7 @@ jobs:
                   -DCMAKE_C_COMPILER=$CC \
                   -DCMAKE_CXX_COMPILER=$CXX \
                   $CMAKE_EXTRA_ARGS \
-                  -DCMAKE_CXX_FLAGS='$CXX_FLAGS' \
+                  -DCMAKE_CXX_FLAGS="$CXX_FLAGS" \
                   -G Ninja
     - name: Build
       run: ninja -C _build
