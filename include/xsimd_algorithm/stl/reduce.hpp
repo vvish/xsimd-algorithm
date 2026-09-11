@@ -72,7 +72,7 @@ namespace xsimd
 
         // reduce across batch
         alignas(batch_type) std::array<value_type, simd_size> arr;
-        xsimd::store_aligned(arr.data(), batch_init);
+        batch_init.store_aligned(arr.data());
         for (auto x : arr)
             init = binfun(init, x);
 
