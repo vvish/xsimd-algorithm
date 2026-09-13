@@ -11,8 +11,7 @@ permissions:
 
 concurrency:
   group: benchmarks-${{ github.ref }}
-  # Keep default-branch runs, since those are what record the baseline.
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
 
 jobs:
   bench-linux:
@@ -102,26 +101,29 @@ jobs:
           if echo '${{ matrix.sys.flags }}' | grep -q 'avx512'; then
             ./sde-external-9.48.0-2024-11-25-lin/sde64 -tgl -- \
               ./_bench_build/benchmark/bench_algorithms \
+              --benchmark_repetitions=10 --benchmark_min_time=0.1s \
               --benchmark_out=benchmark-result.json
           else
             ./_bench_build/benchmark/bench_algorithms \
+              --benchmark_repetitions=10 --benchmark_min_time=0.1s \
               --benchmark_out=benchmark-result.json
           fi
 
-      - name: Restore baseline
-        uses: actions/cache/restore@v4
-        with:
-          path: baseline
-          key: bench-baseline-${{ env.PLATFORM }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: bench-baseline-${{ env.PLATFORM }}-
+      - name: Install compare tool dependencies
+        run: |
+          python3 -m venv _gbench_venv
+          _gbench_venv/bin/pip install --quiet -r "$CONDA_PREFIX/share/googlebenchmark/tools/requirements.txt"
 
       - name: Publish results to job summary
         run: |
-          python3 .github/scripts/bench_report.py \
-            --platform "$PLATFORM" \
-            --current benchmark-result.json \
-            --baseline baseline/benchmark-result.json \
-            >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "## Benchmarks: \`$PLATFORM\`"
+            echo
+            echo '```'
+            _gbench_venv/bin/python "$CONDA_PREFIX/share/googlebenchmark/tools/compare.py" --no-color -a \
+              filters benchmark-result.json BM_std_ BM_xsimd_
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload benchmark artifact
         uses: actions/upload-artifact@v4
@@ -130,19 +132,6 @@ jobs:
           path: benchmark-result.json
           if-no-files-found: error
 
-      - name: Record baseline
-        if: github.event_name == 'push'
-        run: |
-          mkdir -p baseline
-          cp benchmark-result.json baseline/benchmark-result.json
-
-      - name: Save baseline
-        if: github.event_name == 'push'
-        continue-on-error: true
-        uses: actions/cache/save@v4
-        with:
-          path: baseline
-          key: bench-baseline-${{ env.PLATFORM }}-${{ github.sha }}
 
   bench-macos:
     name: 'macos-${{ matrix.os }}'
@@ -183,22 +172,24 @@ jobs:
       - name: Run benchmarks
         run: |
           ./_bench_build/benchmark/bench_algorithms \
+            --benchmark_repetitions=10 --benchmark_min_time=0.1s \
             --benchmark_out=benchmark-result.json
 
-      - name: Restore baseline
-        uses: actions/cache/restore@v4
-        with:
-          path: baseline
-          key: bench-baseline-${{ env.PLATFORM }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: bench-baseline-${{ env.PLATFORM }}-
+      - name: Install compare tool dependencies
+        run: |
+          python3 -m venv _gbench_venv
+          _gbench_venv/bin/pip install --quiet -r "$CONDA_PREFIX/share/googlebenchmark/tools/requirements.txt"
 
       - name: Publish results to job summary
         run: |
-          python3 .github/scripts/bench_report.py \
-            --platform "$PLATFORM" \
-            --current benchmark-result.json \
-            --baseline baseline/benchmark-result.json \
-            >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "## Benchmarks: \`$PLATFORM\`"
+            echo
+            echo '```'
+            _gbench_venv/bin/python "$CONDA_PREFIX/share/googlebenchmark/tools/compare.py" --no-color -a \
+              filters benchmark-result.json BM_std_ BM_xsimd_
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload benchmark artifact
         uses: actions/upload-artifact@v4
@@ -207,16 +198,3 @@ jobs:
           path: benchmark-result.json
           if-no-files-found: error
 
-      - name: Record baseline
-        if: github.event_name == 'push'
-        run: |
-          mkdir -p baseline
-          cp benchmark-result.json baseline/benchmark-result.json
-
-      - name: Save baseline
-        if: github.event_name == 'push'
-        continue-on-error: true
-        uses: actions/cache/save@v4
-        with:
-          path: baseline
-          key: bench-baseline-${{ env.PLATFORM }}-${{ github.sha }}

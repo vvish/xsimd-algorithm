@@ -26,7 +26,7 @@ namespace
     }
 
     template <typename T>
-    void BM_std_iota(benchmark::State& state)
+    void BM_std_arange(benchmark::State& state)
     {
         std::vector<T> v(static_cast<std::size_t>(state.range(0)));
         for (auto _ : state)
@@ -147,12 +147,12 @@ namespace
     static constexpr long long kMedium = 1LL << 18;
     static constexpr long long kLarge = 1LL << 22;
 
-    // arange / iota
-    BENCHMARK_TEMPLATE(BM_std_iota, float)
+    // arange (std::iota is the scalar equivalent of xsimd::arange)
+    BENCHMARK_TEMPLATE(BM_std_arange, float)
     BENCH_ARGS;
     BENCHMARK_TEMPLATE(BM_xsimd_arange, float)
     BENCH_ARGS;
-    BENCHMARK_TEMPLATE(BM_std_iota, double)
+    BENCHMARK_TEMPLATE(BM_std_arange, double)
     BENCH_ARGS;
     BENCHMARK_TEMPLATE(BM_xsimd_arange, double)
     BENCH_ARGS;
