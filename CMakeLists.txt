@@ -39,6 +39,26 @@ target_link_libraries(xsimd-algorithm INTERFACE xsimd)
 OPTION(BUILD_TESTS       "Build xsimd-algorithm test suite"  OFF)
 OPTION(BUILD_BENCHMARKS  "Build xsimd-algorithm benchmarks"  OFF)
 
+# Architecture to compile this project's own tests and benchmarks for
+set(TARGET_ARCH "" CACHE STRING "Architecture passed to -march for this project's targets")
+
+if(TARGET_ARCH)
+    if(MSVC)
+        message(FATAL_ERROR "TARGET_ARCH is not supported with MSVC")
+    endif()
+
+    include(CheckCXXCompilerFlag)
+    check_cxx_compiler_flag("-march=${TARGET_ARCH}" XSIMDALGO_HAS_MARCH_${TARGET_ARCH})
+    if(NOT XSIMDALGO_HAS_MARCH_${TARGET_ARCH})
+        message(FATAL_ERROR
+                "${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION} does not accept "
+                "-march=${TARGET_ARCH}")
+    endif()
+
+    message(STATUS "Building for target architecture: ${TARGET_ARCH}")
+    add_compile_options(-march=${TARGET_ARCH})
+endif()
+
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
