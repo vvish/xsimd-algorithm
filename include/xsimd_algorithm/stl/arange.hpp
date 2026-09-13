@@ -41,11 +41,11 @@ namespace xsimd
         const std::size_t size = static_cast<std::size_t>(std::distance(first, last));
         constexpr std::size_t simd_size = batch_type::size;
 
-        // if (size < simd_size)
-        //{
-        detail::sequential_arange(first, last, value, step);
-        return;
-        //}
+        if (size < simd_size)
+        {
+            detail::sequential_arange(first, last, value, step);
+            return;
+        }
 
         const auto* const ptr_begin = &(*first);
         const std::size_t align_begin = xsimd::get_alignment_offset(ptr_begin, size, simd_size);
